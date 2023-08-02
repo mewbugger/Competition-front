@@ -1,6 +1,6 @@
 <template>
   <template v-if="user">
-    <van-cell title="当前用户" :value="user?.username" />
+    <van-cell title="当前用户" :value="user.userName" is-link to="/user/logout"/>
     <van-cell title="修改信息" is-link to="/user/update" />
     <van-cell title="我创建的队伍" is-link to="/user/team/create" />
     <van-cell title="我加入的队伍" is-link to="/user/team/join" />
@@ -34,16 +34,7 @@ onMounted(async () => {
   user.value = await getCurrentUser();
 })
 
-const toEdit = (editKey: string, editName: string, currentValue: string) => {
-  router.push({
-    path: '/user/edit',
-    query: {
-      editKey,
-      editName,
-      currentValue,
-    }
-  })
-}
+
 </script>
 
 <style scoped>
