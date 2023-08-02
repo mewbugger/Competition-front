@@ -35,7 +35,7 @@
         </van-button>
       </template>
     </van-card>
-    <van-dialog  title="请输入密码" show-cancel-button @confirm="doJoinTeam" @cancel="doJoinCancel">
+    <van-dialog  v-model:show="show" title="请输入密码" show-cancel-button @confirm="doJoinTeam" @cancel="doJoinCancel">
       <van-field v-model="password" placeholder="请输入密码"/>
     </van-dialog>
   </div>
@@ -63,7 +63,7 @@ const props = withDefaults(defineProps<TeamCardListProps>(), {
 const password = ref('');
 const joinTeamId = ref(0);
 const currentUser = ref();
-
+const show = ref(false);
 const router = useRouter();
 
 onMounted(async () => {
@@ -72,7 +72,8 @@ onMounted(async () => {
 
 const preJoinTeam = (team: TeamType) => {
   joinTeamId.value = team.id;
-  doJoinTeam()
+  show.value = true
+  //doJoinTeam()
 }
 
 /**
@@ -94,7 +95,7 @@ const doJoinTeam = async () => {
     teamId: joinTeamId.value,
     password: password.value
   });
-  if (res?.data?.code === 0) {
+  if (res?.code === 0) {
     Toast.success('加入成功');
     doJoinCancel();
   } else {
