@@ -19,7 +19,6 @@ import TeamCardList from "../components/TeamCardList.vue";
 import {onMounted, ref} from "vue";
 import myAxios from "../plugins/myAxios";
 import {Toast} from "vant";
-
 // const active = ref('public')
 const router = useRouter();
 const searchText = ref('');

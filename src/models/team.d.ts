@@ -4,6 +4,7 @@ import {UserType} from "./user";
  * 队伍类别
  */
 export type TeamType = {
+hasJoin: any;
     id: number;
     name: string;
     expireTime?: Date;
