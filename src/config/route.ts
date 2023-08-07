@@ -1,6 +1,6 @@
 // 定义一些路由
 import Index from "../pages/Index.vue";
-import Team from "../pages/TeamPage.vue";
+import TeamPage from "../pages/TeamPage.vue";
 import UserPage from "../pages/UserPage.vue";
 import UserUpdatePage from "../pages/UserUpdatePage.vue";
 import UserTeamJoinPage from "../pages/UserTeamJoinPage.vue";
@@ -12,11 +12,12 @@ import UserLoginPage from "../pages/UserLoginPage.vue";
 import UserLogoutPage from "../pages/UserLogoutPage.vue"
 import TeamAddPage from "../pages/TeamAddPage.vue";
 import TeamUpdatePage from "../pages/TeamUpdatePage.vue";
+import CompetitionPage from "../pages/CompetitionPage.vue";
 
 
 const routes = [
     { path: '/', component: Index },
-    { path: '/team', title: '找队伍', component: Team },
+    { path: '/team', title: '找队伍', component: TeamPage },
     { path: '/team/add', title: '创建队伍', component: TeamAddPage },
     { path: '/team/update', title: '更新队伍', component: TeamUpdatePage },
     { path: '/user', title: '个人信息', component: UserPage },
@@ -28,6 +29,7 @@ const routes = [
     { path: '/user/logout', title: '退出登录', component: UserLogoutPage },
     { path: '/user/team/join', title: '加入队伍', component: UserTeamJoinPage },
     { path: '/user/team/create', title: '创建队伍', component: UserTeamCreatePage },
+    { path: '/competition', title: '找竞赛', component: CompetitionPage }
     
 ]
 
