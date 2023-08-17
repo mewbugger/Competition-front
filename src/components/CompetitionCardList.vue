@@ -26,9 +26,9 @@
           </van-button> -->
         </template>
       </van-card>
-      <!-- <van-dialog v-model:show="show" title="请输入密码" show-cancel-button @confirm="doJoinTeam" @cancel="doJoinCancel">
-        <van-field v-model="password" placeholder="请输入密码" />
-      </van-dialog> -->
+      <van-dialog v-model:show="show" title="请输入队伍名称" show-cancel-button @confirm="doJoinCompetition" @cancel="doJoinCancel">
+        <van-field v-model="teamName" placeholder="请输入密码" />
+      </van-dialog>
     </div>
   </template>
   
@@ -52,8 +52,8 @@
   
   //const teamList = ref();
   
-  const password = ref('');
-  const joinTeamId = ref(0);
+  const teamName = ref('');
+  const joinCompetitionId = ref(0);
   const currentUser = ref();
   const show = ref(false);
   const router = useRouter();
@@ -65,32 +65,29 @@
   
   
   
-  
-  
   const preJoinCompetition = (competition: CompetitionType) => {
-    joinTeamId.value = competition.id;
+    joinCompetitionId.value = competition.id;
     show.value = true
-    //doJoinTeam()
   }
   
   /**
    * 加入成功后把密码框的内容清空
    */
   const doJoinCancel = () => {
-    joinTeamId.value = 0;
-    password.value = '';
+    joinCompetitionId.value = 0;
+    teamName.value = '';
   }
   
   /**
-   * 加入队伍
+   * 加入竞赛
    */
-  const doJoinTeam = async () => {
-    if (!joinTeamId.value) {
+  const doJoinCompetition = async () => {
+    if (!joinCompetitionId.value) {
       return;
     }
-    const res = await myAxios.post('/team/join', {
-      teamId: joinTeamId.value,
-      password: password.value
+    const res = await myAxios.post('/competition/join', {
+      competitionId: joinCompetitionId.value,
+      teamName: teamName.value
     });
     if (res?.code === 0) {
       Toast.success('加入成功');
@@ -100,18 +97,6 @@
     }
   }
   
-  /**
-   * 跳转至更新队伍页
-   * @param id
-   */
-  const doUpdateTeam = (id: number) => {
-    router.push({
-      path: '/team/update',
-      query: {
-        id,
-      }
-    })
-  }
   
   /**
    * 退出队伍
@@ -129,20 +114,6 @@
     }
   }
   
-  /**
-   * 解散队伍
-   * @param id
-   */
-  const doDeleteTeam = async (id: number) => {
-    const res = await myAxios.post('/team/delete', {
-      id,
-    });
-    if (res?.code === 0) {
-      Toast.success('操作成功');
-    } else {
-      Toast.fail('操作失败');
-    }
-  }
   
   
   </script>

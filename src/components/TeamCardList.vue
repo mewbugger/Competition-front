@@ -65,34 +65,6 @@ onMounted(async () => {
   currentUser.value = await getCurrentUser();
 })
 
-const fetchLatestTeamList = async (val = '') => {
-  const res = await myAxios.get("/team/list", {
-    params: {
-      searchText: val,
-      pageNum: 1,
-    },
-  });
-  if (res?.code === 0) {
-    return res.data;
-  } else {
-    Toast.fail('加载队伍失败，请刷新重试');
-  }
-}
-
-// 刷新 teamList
-const refreshTeamList = async () => {
-  // 执行获取最新 teamList 的操作，比如重新调用接口获取最新的队伍列表数据
-  // 更新 props.teamList 的值
-  console.log("===================")
-  const latestTeamList = await fetchLatestTeamList();
-  teamList.splice(0, teamList.length, ...latestTeamList);
-  console.log(teamList)
-};
-
-
-
-
-
 
 
 const preJoinTeam = (team: TeamType) => {
@@ -123,7 +95,6 @@ const doJoinTeam = async () => {
   if (res?.code === 0) {
     Toast.success('加入成功');
     doJoinCancel();
-    refreshTeamList();
   } else {
     Toast.fail('加入失败');
   }
