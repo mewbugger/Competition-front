@@ -2,9 +2,9 @@
     <div id="competitionCardList">
       <van-card v-for="competition in props.competitionList"  :thumb="ikun" :title="`${competition.name}`">
         <template #bottom>
-          <!-- <div>
-            {{ `队伍人数: ${team.hasJoinNum}/${team.maxNum}` }}
-          </div> -->
+          <div>
+            {{ `竞赛等级:` + competition.level }}
+          </div>
           <div v-if="competition.expireTime">
             {{ '过期时间: ' + competition.expireTime }}
           </div>
@@ -13,17 +13,16 @@
           </div>
         </template>
         <template #footer>
-          <van-button size="small" type="primary"  plain
+          <van-button v-if="!competition.hasJoin && competition.leader" size="small" type="primary"  plain
             @click="preJoinCompetition(competition)">
             参加竞赛
           </van-button>
           <!-- 仅加入队伍可见 -->
-          <!-- <van-button v-if="team.userId !== currentUser?.id && team.hasJoin" size="small" plain
-            @click="doQuitTeam(team.id)">退出队伍
+          <van-button v-if="competition.hasJoin && competition.leader" size="small" plain
+            @click="doQuitCompetition(competition.competitionId)">
+            退出竞赛
           </van-button>
-          <van-button v-if="team.userId === currentUser?.id" size="small" type="danger" plain
-            @click="doDeleteTeam(team.id)">解散队伍
-          </van-button> -->
+          
         </template>
       </van-card>
       <van-dialog v-model:show="show" title="请输入队伍名称" show-cancel-button @confirm="doJoinCompetition" @cancel="doJoinCancel">
@@ -102,9 +101,9 @@
    * 退出队伍
    * @param id
    */
-  const doQuitTeam = async (id: number) => {
+  const doQuitCompetition = async (competitionId: number) => {
     const res = await myAxios.post('/team/quit', {
-      teamId: id
+      competitionId: competitionId
     });
     if (res?.code === 0) {
       Toast.success('操作成功');

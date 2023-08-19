@@ -49,7 +49,7 @@
    * @returns {Promise<void>}
    */
   const listCompetition = async (val = '') => {
-    const res = await myAxios.get("/competition/list", {
+    const res = await myAxios.get("/competition/list1", {
       params: {
         searchText: val,
         pageNum: 1,
