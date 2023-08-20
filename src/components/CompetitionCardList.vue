@@ -13,20 +13,23 @@
           </div>
         </template>
         <template #footer>
-          <van-button v-if="!competition.hasJoin && competition.leader" size="small" type="primary"  plain
+          <van-button v-if="!competition.hasJoin && !competition.leader" size="small" type="primary"  plain
             @click="preJoinCompetition(competition)">
             参加竞赛
           </van-button>
           <!-- 仅加入队伍可见 -->
           <van-button v-if="competition.hasJoin && competition.leader" size="small" plain
-            @click="doQuitCompetition(competition.competitionId)">
+            @click="preQuitCompetition(competition)">
             退出竞赛
           </van-button>
           
         </template>
       </van-card>
       <van-dialog v-model:show="show" title="请输入队伍名称" show-cancel-button @confirm="doJoinCompetition" @cancel="doJoinCancel">
-        <van-field v-model="teamName" placeholder="请输入密码" />
+        <van-field v-model="teamName" placeholder="请输入队伍名称" />
+      </van-dialog>
+      <van-dialog v-model:show="show1" title="请输入队伍名称" show-cancel-button @confirm="doQuitCompetition" @cancel="doQuitCancel">
+        <van-field v-model="teamName" placeholder="请输入队伍名称" />
       </van-dialog>
     </div>
   </template>
@@ -53,8 +56,10 @@
   
   const teamName = ref('');
   const joinCompetitionId = ref(0);
+  const quitCompetitionId = ref(0);
   const currentUser = ref();
   const show = ref(false);
+  const show1 = ref(false);
   const router = useRouter();
   
   onMounted(async () => {
@@ -65,15 +70,28 @@
   
   
   const preJoinCompetition = (competition: CompetitionType) => {
-    joinCompetitionId.value = competition.id;
+    joinCompetitionId.value = competition.competitionId;
     show.value = true
+  }
+
+  const preQuitCompetition = (competition: CompetitionType) => {
+    quitCompetitionId.value = competition.competitionId;
+    show1.value = true
   }
   
   /**
-   * 加入成功后把密码框的内容清空
+   * 加入成功后把输入框的内容清空
    */
   const doJoinCancel = () => {
     joinCompetitionId.value = 0;
+    teamName.value = '';
+  }
+
+  /**
+   * 退出成功后把输入框的内容清空
+   */
+  const doQuitCancel = () => {
+    quitCompetitionId.value = 0;
     teamName.value = '';
   }
   
@@ -102,12 +120,16 @@
    * @param id
    */
   const doQuitCompetition = async (competitionId: number) => {
-    const res = await myAxios.post('/team/quit', {
-      competitionId: competitionId
+    if(!quitCompetitionId.value){
+      return;
+    }
+    const res = await myAxios.post('/competition/quit', {
+      competitionId: quitCompetitionId.value,
+      teamName: teamName.value
     });
     if (res?.code === 0) {
       Toast.success('操作成功');
-      
+      doQuitCancel();
     } else {
       Toast.fail('操作失败');
     }

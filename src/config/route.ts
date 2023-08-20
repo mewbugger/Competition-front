@@ -4,6 +4,7 @@ import TeamPage from "../pages/TeamPage.vue";
 import UserPage from "../pages/UserPage.vue";
 import UserUpdatePage from "../pages/UserUpdatePage.vue";
 import UserTeamJoinPage from "../pages/UserTeamJoinPage.vue";
+import UserCompetitionJoinPage from "../pages/UserCompetitionJoinPage.vue"
 import UserTeamCreatePage from "../pages/UserTeamCreatePage.vue";
 import SearchPage from "../pages/SearchPage.vue";
 import SearchResultPage from "../pages/SearchResultPage.vue";
@@ -28,6 +29,7 @@ const routes = [
     { path: '/user/update', title: '更新信息', component: UserUpdatePage },
     { path: '/user/logout', title: '退出登录', component: UserLogoutPage },
     { path: '/user/team/join', title: '加入队伍', component: UserTeamJoinPage },
+    { path: '/user/competition/join', title: '参加竞赛', component: UserCompetitionJoinPage},
     { path: '/user/team/create', title: '创建队伍', component: UserTeamCreatePage },
     { path: '/competition', title: '找竞赛', component: CompetitionPage }
     
